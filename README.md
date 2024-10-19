@@ -1,5 +1,5 @@
 # PHTP
-# PHTP - PHP Time-based One-Time Password (TOTP) Library
+## PHTP - PHP Time-based One-Time Password (TOTP) Library
 
 PHTP is a lightweight PHP library for generating and verifying Time-based One-Time Passwords (TOTP) and standard One-Time Passwords (OTP).  It's designed to be easy to use and integrate into your PHP applications for enhanced security.  PHTP is compatible with popular authenticator apps like Google Authenticator and Microsoft Authenticator.
 
