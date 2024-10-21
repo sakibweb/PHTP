@@ -93,13 +93,13 @@ class PHTP {
         } elseif (strtoupper($mode) === 'OTP') {
             $timePart = substr($secret, -8);
             $secret = substr($secret, 0, -8);
-            $otpTime = hexdec($timePart);
-            $otpTime = PHTM::setTime((int)$otpTime + $time, 'Y-m-d H:i:s');
-            $diff = PHTM::calculate($otpTime);
+            $otpTimeINT = (int)hexdec($timePart);
+            $otpTime = PHTM::setTime($otpTimeINT, 'Y-m-d H:i:s');
+            $otpXPtime = PHTM::setTime($otpTimeINT + $time, 'Y-m-d H:i:s');
+            $diff = PHTM::calculate(PHTM::getTime('Y-m-d H:i:s'), $otpXPtime);
 
-            if ($diff['expire'] === false OR $diff['expire'] !== true) {
-                $otp = mt_rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-                return ['status' => false, 'message' => 'OTP is expired, new OTP'];
+            if ($diff['expire'] === true && $diff['expire'] !== false) {
+                return ['status' => false, 'message' => 'OTP is expired'];
             } else {
                 $time = str_pad(pack('N', intval($otpTime)), 8, "\x00", STR_PAD_LEFT);
             }
@@ -128,7 +128,7 @@ class PHTP {
         $generatedOtp = self::code($secret, $mode, $digits, $time, $offset, $algo);
 
         if ($generatedOtp['status'] === false) {
-            return ['status' => false, 'message' => 'Failed to generate OTP for verification', 'data' => $generatedOtp];
+            return ['status' => false, 'message' => 'Invalid OTP'];
         }
 
         if ($generatedOtp['data'] === $otp) {
