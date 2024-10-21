@@ -128,7 +128,7 @@ class PHTP {
         $generatedOtp = self::code($secret, $mode, $digits, $time, $offset, $algo);
 
         if ($generatedOtp['status'] === false) {
-            return ['status' => false, 'message' => 'Invalid OTP'];
+            return ['status' => false, 'message' => $generatedOtp['message']];
         }
 
         if ($generatedOtp['data'] === $otp) {
